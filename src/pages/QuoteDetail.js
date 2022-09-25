@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route, useParams } from 'react-router-dom';
+import { Link, Route, useParams, useRouteMatch } from 'react-router-dom';
 import Comments from './../components/comments/Comments';
 import HighlightedQuote from '../components/quotes/HighlightedQuote';
 
@@ -12,6 +12,7 @@ const DUMMY_QUOTES = [
 
 const QuoteDetail = () => {
     const params = useParams();
+    const match = useRouteMatch(); // returns the path you set (.path) + actual url (.url)
 
     const quote = DUMMY_QUOTES.find((quote) => quote.id === params.quoteId);
 
@@ -25,13 +26,13 @@ const QuoteDetail = () => {
             
             <HighlightedQuote text={quote.text} author={quote.author} />
             
-            <Route path={`/quotes/${params.quoteId}`} exact>
+            <Route path={match.path} exact>
                 <div className='centered'>
-                    <Link className='btn--flat' to={`/quotes/${params.quoteId}/comments`}>Load comments</Link>
+                    <Link className='btn--flat' to={`${match.url}/comments`}>Load comments</Link>
                 </div>
             </Route>
 
-            <Route path={`/quotes/${params.quoteId}/comments`}> {/* nested dynamic route */}
+            <Route path={`${match.path}/comments`}> {/* nested dynamic route */}
                 {/* path could also be "path='/quotes/:quoteId/comments" */}
                 <Comments />
             </Route> 

@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation} from 'react-router-dom';
 
 const sortQuotes = (quotes, ascending) => { // sorting the quotes by id 
   return quotes.sort((quoteA, quoteB) => {
@@ -18,6 +18,7 @@ const sortQuotes = (quotes, ascending) => { // sorting the quotes by id
 const QuoteList = (props) => {
   const history = useHistory();
   const location = useLocation();
+  
 
   const queryParams = new URLSearchParams( // default JS constructor function
     location.search 
@@ -28,7 +29,13 @@ const QuoteList = (props) => {
   const sortedQuotes = sortQuotes(props.quotes, isSortingAcending);
   
   const changeSortingHandler = () => {
-    history.push('/quotes?sort=' + (isSortingAcending ? 'desc' : 'asc')); // adding a query param to be then read and acted upon 
+    history.push({ // another way of pushing to history, separating pathname and search query to be more readable
+      pathname: location.pathname,
+      search: `?sort=${(isSortingAcending ? 'desc' : 'asc')}`
+    });
+
+    // adding a query param to be then read and acted upon
+    // history.push(`${location.pathname}?sort=${(isSortingAcending ? 'desc' : 'asc')}`);  
   }
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, useParams } from 'react-router-dom';
+import { Link, Route, useParams } from 'react-router-dom';
 import Comments from './../components/comments/Comments';
 import HighlightedQuote from '../components/quotes/HighlightedQuote';
 
@@ -24,6 +24,12 @@ const QuoteDetail = () => {
             <h1>Quote detail</h1>
             
             <HighlightedQuote text={quote.text} author={quote.author} />
+            
+            <Route path={`/quotes/${params.quoteId}`} exact>
+                <div className='centered'>
+                    <Link className='btn--flat' to={`/quotes/${params.quoteId}/comments`}>Load comments</Link>
+                </div>
+            </Route>
 
             <Route path={`/quotes/${params.quoteId}/comments`}> {/* nested dynamic route */}
                 {/* path could also be "path='/quotes/:quoteId/comments" */}
